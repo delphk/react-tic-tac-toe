@@ -5,7 +5,8 @@ import { calculateWinner } from "./utils/utils";
 class Board extends Component {
   state = {
     squares: Array(9).fill(null),
-    xIsNext: true
+    xIsNext: true,
+    turnIndex: 0
   };
 
   renderSquare(i) {
@@ -21,13 +22,18 @@ class Board extends Component {
     const squares = [...this.state.squares];
     if (calculateWinner(squares) || squares[i]) return;
     squares[i] = this.state.xIsNext ? "X" : "O";
-    this.setState({ squares, xIsNext: !this.state.xIsNext });
+    this.setState({
+      squares,
+      xIsNext: !this.state.xIsNext,
+      turnIndex: this.state.turnIndex + 1
+    });
   };
 
   render() {
     const winner = calculateWinner(this.state.squares);
     let status;
     if (winner) status = "Winner: " + winner;
+    else if (this.state.turnIndex === 9 && !winner) status = "It's a draw!";
     else status = "Next player: " + (this.state.xIsNext ? "X" : "O");
 
     return (

@@ -1,3 +1,9 @@
+body {
+  background: rgb(182, 98, 9);
+  font-family: "Indie Flower", cursive;
+  font-size: 40px;
+}
+
 .game {
   text-align: center;
 }
@@ -9,15 +15,18 @@
 .square {
   width: 150px;
   height: 150px;
-  font-size: 60px;
+  font-size: 6rem;
   margin: 5px;
   background: #222;
-  color: #ccc;
+  color: rgb(252, 248, 133);
+  font-weight: bold;
   vertical-align: top;
+  font-family: "Indie Flower", cursive;
+  border: none;
 }
 
 .square:hover {
-  background: #444;
+  background: #333;
 }
 
 .square:focus {
