@@ -21,7 +21,7 @@ class Board extends Component {
   handleClick = i => {
     const squares = [...this.state.squares];
     if (calculateWinner(squares) || squares[i]) return;
-    squares[i] = this.state.xIsNext ? "X" : "O";
+    squares[i] = this.state.xIsNext ? "Doge" : "Cate";
     this.setState({
       squares,
       xIsNext: !this.state.xIsNext,
@@ -34,7 +34,7 @@ class Board extends Component {
     let status;
     if (winner) status = "Winner: " + winner;
     else if (this.state.turnIndex === 9 && !winner) status = "It's a draw!";
-    else status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+    else status = "Next player: " + (this.state.xIsNext ? "Doge" : "Cate");
 
     return (
       <div className="board">

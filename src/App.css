@@ -15,14 +15,16 @@ body {
 .square {
   width: 150px;
   height: 150px;
-  font-size: 6rem;
   margin: 5px;
   background: #222;
-  color: rgb(252, 248, 133);
   font-weight: bold;
   vertical-align: top;
-  font-family: "Indie Flower", cursive;
   border: none;
+}
+
+img {
+  width: 145px;
+  height: 150px;
 }
 
 .square:hover {
@@ -31,4 +33,16 @@ body {
 
 .square:focus {
   outline: none;
+}
+
+@media (max-width: 640px) {
+  .square {
+    width: 75px;
+    height: 75px;
+  }
+
+  img {
+    width: 70px;
+    height: 75px;
+  }
 }
