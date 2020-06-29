@@ -22,22 +22,104 @@ class Board extends Component {
     const squares = [...this.state.squares];
     if (calculateWinner(squares) || squares[i]) return;
     squares[i] = this.state.xIsNext ? "Doge" : "Cate";
-    this.setState({
-      squares,
-      xIsNext: !this.state.xIsNext,
-      turnIndex: this.state.turnIndex + 1
-    });
+
+    this.setState(
+      {
+        squares,
+        xIsNext: !this.state.xIsNext,
+        turnIndex: this.state.turnIndex + 1
+      },
+      () => {
+        if (this.getWinner(this.state.squares)) {
+          this.props.setGameOver();
+        } else if (this.props.noOfPlayers === 1) this.makeAImove();
+      }
+    );
   };
 
+  makeAImove = () => {
+    const squares = [...this.state.squares];
+    let bestScore = -Infinity;
+    let bestMove;
+    for (let square in squares) {
+      if (!squares[square]) {
+        squares[square] = "Cate";
+        let score = this.minimax(squares, false);
+        squares[square] = null;
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = square;
+        }
+      }
+    }
+    squares[bestMove] = "Cate";
+    return this.setState(
+      {
+        squares,
+        xIsNext: "Doge",
+        turnIndex: this.state.turnIndex + 1
+      },
+      () => {
+        if (this.getWinner(this.state.squares)) {
+          this.props.setGameOver();
+        }
+      }
+    );
+  };
+
+  minimax(squares, isMaximizing) {
+    const scores = {
+      Doge: -1,
+      Cate: 1,
+      Tie: 0
+    };
+    let winner = this.getWinner(squares);
+    if (winner) {
+      let score = scores[winner];
+      return score;
+    }
+    if (isMaximizing) {
+      let bestScore = -Infinity;
+      for (let square in squares) {
+        if (!squares[square]) {
+          squares[square] = "Cate";
+          let score = this.minimax(squares, false);
+          squares[square] = null;
+          bestScore = Math.max(score, bestScore);
+        }
+      }
+      return bestScore;
+    } else {
+      let bestScore = Infinity;
+      for (let square in squares) {
+        if (!squares[square]) {
+          squares[square] = "Doge";
+          let score = this.minimax(squares, true);
+          squares[square] = null;
+          bestScore = Math.min(score, bestScore);
+        }
+      }
+      return bestScore;
+    }
+  }
+
+  getWinner(squares) {
+    const winner = calculateWinner(squares);
+    if (winner) return winner;
+    if (squares.every(square => square) && !winner) return "Tie";
+    return false;
+  }
+
   render() {
-    const winner = calculateWinner(this.state.squares);
+    const winner = this.getWinner(this.state.squares);
     let status;
-    if (winner) status = "Winner: " + winner;
-    else if (this.state.turnIndex === 9 && !winner) status = "It's a draw!";
-    else status = "Next player: " + (this.state.xIsNext ? "Doge" : "Cate");
+    if (winner) {
+      if (winner === "Tie") status = "It's a draw!";
+      else status = "Winner: " + winner;
+    } else status = "Next player: " + (this.state.xIsNext ? "Doge" : "Cate");
 
     return (
-      <div className="board">
+      <div>
         <div>{status} </div>
         <div className="board-row">
           {this.renderSquare(0)}

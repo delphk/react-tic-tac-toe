@@ -8,8 +8,10 @@ body {
   text-align: center;
 }
 
-.board {
-  margin: 10% 0;
+.game-container {
+  height: 150px;
+  padding: 5% 0;
+  box-sizing: border-box;
 }
 
 .square {
@@ -33,6 +35,23 @@ img {
 
 .square:focus {
   outline: none;
+}
+
+.btn-primary {
+  background: #064864;
+  font-family: "Indie Flower", cursive;
+  color: #fff;
+  border-color: transparent;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5rem;
+  margin: 0.5rem 1.5rem;
+  transition: 0.3s;
+  font-size: 28px;
+  outline: none;
+}
+.btn-primary:hover {
+  background: #032534;
 }
 
 @media (max-width: 640px) {
